@@ -8,6 +8,6 @@
 # define GOOMBA_FACE_RIGHT "./graphics/goomba_right.png"
 # define GOOMBA_FACE_LEFT "./graphics/goomba_left.png"
 # define SOL "./graphics/sol.png"
-# define HEIGHT_SOL 23
-# define WIDTH_SOL 23
+# define HEIGHT_SOL 16
+# define WIDTH_SOL 16
 #endif
