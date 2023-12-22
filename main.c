@@ -15,9 +15,10 @@ static void process_line(char *line, int y, mlx_t *mlx)
     x = 0;
     while (line[x] != '\0')
     {
-        if (line[x] == '0')  // Assuming '0' represents ground
+        if (line[x] == '0')
             mlx_image_to_window(mlx, image_sol, x * WIDTH_SOL, y);
-        // Handle other characters here
+        if (line[x] == 'T')
+            mlx_image_to_window(mlx, image_sol, x * WIDTH_SOL, y);    
         x++;
     }
 }
@@ -74,10 +75,10 @@ int main(void) {
     if (!mlx)
         return EXIT_FAILURE;
 
-    // img_mario = mlx_load_png(MARIO_FACE_RIGHT);
+    img_mario = mlx_load_png(MARIO_FACE_RIGHT);
     img_sol = mlx_load_png(SOL);
     if (!img_sol) {
-        // mlx_delete_texture(img_mario);
+        mlx_delete_texture(img_mario);
         mlx_terminate(mlx);
         return EXIT_FAILURE;
     }
@@ -86,12 +87,12 @@ int main(void) {
         // return EXIT_FAILURE;
     // }
 
-    // image_mario = mlx_texture_to_image(mlx, img_mario);
-    // if (!image_mario) {
-    //     // mlx_delete_texture(img_mario);
-    //     mlx_terminate(mlx);
-    //     return EXIT_FAILURE;
-    // }
+    image_mario = mlx_texture_to_image(mlx, img_mario);
+    if (!image_mario) {
+        mlx_delete_texture(img_mario);
+        mlx_terminate(mlx);
+        return EXIT_FAILURE;
+    }
     image_sol = mlx_texture_to_image(mlx, img_sol);
     if (!image_sol) {
         mlx_delete_texture(img_mario);
@@ -99,23 +100,23 @@ int main(void) {
         mlx_terminate(mlx);
         return EXIT_FAILURE;
     }
-    // if (mlx_image_to_window(mlx, image_mario, 0, 500) == -1) {
-    //     mlx_delete_texture(img_mario);
-    //     mlx_terminate(mlx);
-    //     return EXIT_FAILURE;
-    // }
+    if (mlx_image_to_window(mlx, image_mario, 0, 500) == -1) {
+        mlx_delete_texture(img_mario);
+        mlx_terminate(mlx);
+        return EXIT_FAILURE;
+    }
     int sol_y_position = WINDOW_HEIGHT - HEIGHT_SOL;
     if (mlx_image_to_window(mlx, image_sol, 0, sol_y_position) == -1) {
-        // mlx_delete_texture(img_mario);
+        mlx_delete_texture(img_mario);
         mlx_delete_texture(img_sol);
         mlx_terminate(mlx);
         return EXIT_FAILURE;
     }
     display_map(mlx);
-    // mlx_loop_hook(mlx,ft_hook,mlx);
+    mlx_loop_hook(mlx,ft_hook,mlx);
     mlx_loop(mlx);
 
-    // mlx_delete_texture(img_mario);
+    mlx_delete_texture(img_mario);
     mlx_delete_texture(img_sol);
     mlx_terminate(mlx);
 
